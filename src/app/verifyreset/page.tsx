@@ -1,10 +1,9 @@
 "use client";
-import Link from "next/link";
+
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import { set } from "mongoose";
 
 export default function VerifyPasswordPage() {
   const router = useRouter();
@@ -85,11 +84,11 @@ export default function VerifyPasswordPage() {
             onChange={(e) => setUser({ ...user, password: e.target.value })}
             placeholder="password"
           />
-          <label htmlFor="password">Confirm Password</label>
+          <label htmlFor="confirmpassword">Confirm Password</label>
           <input
             className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 text-black"
             type="password"
-            id="password"
+            id="confirmpassword"
             value={user.confirmPassword}
             onChange={(e) =>
               setUser({ ...user, confirmPassword: e.target.value })

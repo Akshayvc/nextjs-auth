@@ -6,7 +6,6 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function ForgotPasswordPage() {
-  const router = useRouter();
   const [user, setUser] = React.useState({
     email: "",
   });

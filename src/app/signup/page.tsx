@@ -6,7 +6,6 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 
-
 export default function SignupPage() {
   const router = useRouter();
 
@@ -23,7 +22,7 @@ export default function SignupPage() {
   const onSignup = async () => {
     try {
       setLoading(true);
-      const response = await axios.post("/api/users/signup", user);
+      await axios.post("/api/users/signup", user);
       toast.success("Signup successful");
       router.push("/login");
     } catch (error: any) {

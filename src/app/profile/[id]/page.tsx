@@ -1,5 +1,3 @@
-import { log } from "console";
-
 export default function UserProfilePage({ params }: any) {
   console.log(params);
 
