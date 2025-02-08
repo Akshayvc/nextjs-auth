@@ -9,16 +9,16 @@ connect();
 export async function POST(request: NextRequest) {
   try {
     const reqBody = await request.json();
-    const { username, email, password } = reqBody;
+    const { email, password } = reqBody;
 
     console.log(reqBody);
 
     //check if user already exists
     const user = await User.findOne({ email });
 
-    if (user) {
+    if (!user) {
       return NextResponse.json(
-        { error: "User already exists" },
+        { error: "User does not exist" },
         { status: 400 }
       );
     }
@@ -27,20 +27,16 @@ export async function POST(request: NextRequest) {
     const salt = await bcryptjs.genSalt(10);
     const hashedPassword = await bcryptjs.hash(password, salt);
 
-    const newUser = new User({
-      username,
-      email,
-      password: hashedPassword,
-    });
+    const newUser = await User.findOneAndUpdate(
+      { email: email },
+      { $set: { password: hashedPassword } }
+    );
 
     const savedUser = await newUser.save();
     console.log(savedUser);
 
-    //send verification email
-    await sendEmail({ email, emailType: "VERIFY", userId: savedUser._id });
-
     return NextResponse.json({
-      message: "User created successfully",
+      message: "password reset successfully",
       success: true,
       savedUser,
     });

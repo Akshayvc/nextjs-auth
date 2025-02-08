@@ -5,32 +5,30 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
-export default function LoginPage() {
+export default function ForgotPasswordPage() {
   const router = useRouter();
   const [user, setUser] = React.useState({
     email: "",
-    password: "",
   });
 
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
-  const onLogin = async () => {
+  const onForgotPassword = async () => {
     try {
       setLoading(true);
-      const response = await axios.post("/api/users/login", user);
-      console.log("Login Success", response.data);
-      toast.success("Login successful");
-      router.push("/profile");
+      const response = await axios.post("/api/users/forgotpassword", user);
+      console.log("Email Sent Successfully", response.data);
+      toast.success("Email Sent Successfully to " + user.email);
     } catch (error: any) {
-      toast.error("Login failed", error.message);
+      toast.error("Error", error.message);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (user.email.length > 0 && user.password.length > 0) {
+    if (user.email.length > 0) {
       setButtonDisabled(false);
     } else {
       setButtonDisabled(true);
@@ -40,7 +38,7 @@ export default function LoginPage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <Toaster position="top-center" reverseOrder={false} />
-      <h1>{loading ? "Processing" : "Login"}</h1>
+      <h1>{loading ? "Processing" : "Forgot Password"}</h1>
       <hr />
 
       <label htmlFor="email">Email</label>
@@ -49,26 +47,17 @@ export default function LoginPage() {
         type="email"
         id="email"
         value={user.email}
-        onChange={(e) => setUser({ ...user, email: e.target.value })}
+        onChange={(e) => setUser({ email: e.target.value })}
         placeholder="email"
       />
-      <label htmlFor="password">Password</label>
-      <input
-        className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600 text-black"
-        type="password"
-        id="password"
-        value={user.password}
-        onChange={(e) => setUser({ ...user, password: e.target.value })}
-        placeholder="password"
-      />
+
       <button
-        onClick={onLogin}
+        onClick={onForgotPassword}
         className="p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600"
       >
-        {buttonDisabled ? "No Login" : "Login"}
+        {buttonDisabled ? "No Forgot Password" : "Forgot Password"}
       </button>
-      <Link href="/signup">Visit Signup page</Link>
-      <Link href="/forgotpassword">Forgot Password</Link>
+      <Link href="/login">Visit Login page</Link>
     </div>
   );
 }
